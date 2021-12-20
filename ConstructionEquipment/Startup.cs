@@ -47,7 +47,7 @@ namespace ConstructionEquipment
 			{
 				app.UseDeveloperExceptionPage();
 			}
-
+			app.UseCors("UnsafePolicy");
 			app.UseHttpsRedirection();
 
 			app.UseRouting();

@@ -1,6 +1,7 @@
 ﻿using ConstructionEquipment.Domain.Invoice;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,13 @@ namespace ConstructionEquipment.Controllers
     public class InvoicesController : ControllerBase
     {
         public IInvoiceService _invoiceService;
-        public InvoicesController(IInvoiceService invoiceService)
+		private readonly ILogger<InvoicesController> _logger;
+
+        public InvoicesController(IInvoiceService invoiceService, ILogger<InvoicesController> logger)
         {
             _invoiceService = invoiceService;
+            _logger = logger;
+
         }
 
         [HttpGet("{orderId}")]
@@ -29,8 +34,9 @@ namespace ConstructionEquipment.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch
+            catch (Exception e)
             {
+                _logger.LogError(e.Message);
                 return StatusCode(500);
             }
         }

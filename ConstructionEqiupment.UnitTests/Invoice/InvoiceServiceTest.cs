@@ -75,12 +75,30 @@ namespace ConstructionEqiupment.UnitTests
         }
 
         [TestMethod]
+        public void GenerateInvoice_should_calculate_total_price()
+        {
+            _rentOrderService.Setup(x => x.FindById(It.IsAny<Guid>())).Returns(orderWithOneItem);
+            var service = new InvoiceService(_inventoryService.Object, _rentOrderService.Object);
+            var result = service.Generate(Guid.NewGuid());
+            result.TotalPrice.Should().Be(160);
+        }
+
+        [TestMethod]
         public void GenerateInvoice_with_multiple_items_should_calculate_loyalty_points()
         {
             _rentOrderService.Setup(x => x.FindById(It.IsAny<Guid>())).Returns(orderWithMultipleItems);
             var service = new InvoiceService(_inventoryService.Object, _rentOrderService.Object);
             var result = service.Generate(Guid.NewGuid());
             result.LoyaltyPoints.Should().Be(4);
+        }
+
+        [TestMethod]
+        public void GenerateInvoice_with_multiple_items_should_calculate_price()
+        {
+            _rentOrderService.Setup(x => x.FindById(It.IsAny<Guid>())).Returns(orderWithMultipleItems);
+            var service = new InvoiceService(_inventoryService.Object, _rentOrderService.Object);
+            var result = service.Generate(Guid.NewGuid());
+            result.TotalPrice.Should().Be(660);
         }
 
         [TestMethod]
