@@ -1,3 +1,4 @@
+
 using ConstructionEquipment.Domain;
 using ConstructionEquipment.Domain.Invoice;
 using ConstructionEquipment.Domain.Order;
@@ -112,131 +113,45 @@ namespace ConstructionEqiupment.UnitTests
 
 
         [TestMethod]
-        public void CalculateRegularEquipmentPrice_renting_for_one_day()
+        [DataRow(1, 2, 160)]
+        [DataRow(3, 2, 260)]
+        [DataRow(0, 2, 0)]
+        public void CalculateRegularEquipmentPrice_renting_for_one_day(int durationInDays, int thresholdForPremiumPrice, int expected)
         {
             var service = new InvoiceService(_inventoryService.Object, _rentOrderService.Object);
-            var durationInDays = 1;
-            var thresholdForPremiumPrice = 2;
             var oneTimeFee = true;
-
             var equipment = new Equipment() { Name = "KamAZ truck", Type = EquipmentType.Regular };
-
             var result = service.CalculatePrice(equipment, durationInDays, thresholdForPremiumPrice, oneTimeFee);
-            result.Amount.Should().Be(160);
+            result.Amount.Should().Be(expected);
 
         }
 
-        [TestMethod]
-        public void CalculateRegularEquipmentPrice_renting_for_three_days()
-        {
-            var service = new InvoiceService(_inventoryService.Object, _rentOrderService.Object);
-            var durationInDays = 3;
-            var thresholdForPremiumPrice = 2;
-            var oneTimeFee = true;
-
-            var equipment = new Equipment() { Name = "KamAZ truck", Type = EquipmentType.Regular };
-
-            var result = service.CalculatePrice(equipment, durationInDays, thresholdForPremiumPrice, oneTimeFee);
-            result.Amount.Should().Be(260);
-
-        }
 
         [TestMethod]
-        public void CalculateRegularEquipmentPrice_renting_for_zero_days()
+        [DataRow(1, 3, 60)]
+        [DataRow(4, 3, 220)]
+        [DataRow(0, 3, 0)]
+        public void CalculateSpecialEquipmentPrice_renting_for_zero_days(int durationInDays, int thresholdForPremiumPrice, int expected)
         {
             var service = new InvoiceService(_inventoryService.Object, _rentOrderService.Object);
-            var durationInDays = 0;
-            var thresholdForPremiumPrice = 2;
-            var oneTimeFee = true;
-
-            var equipment = new Equipment() { Name = "KamAZ truck", Type = EquipmentType.Regular };
-
-            var result = service.CalculatePrice(equipment, durationInDays, thresholdForPremiumPrice, oneTimeFee);
-            result.Amount.Should().Be(0);
-
-        }
-
-        [TestMethod]
-        public void CalculateSpecialEquipmentPrice_renting_for_zero_days()
-        {
-            var service = new InvoiceService(_inventoryService.Object, _rentOrderService.Object);
-            var durationInDays = 0;
-            var thresholdForPremiumPrice = 3;
-            var oneTimeFee = true;
-
-            var equipment = new Equipment() { Name = "Bosch jackhammer", Type = EquipmentType.Specialized };
-
-            var result = service.CalculatePrice(equipment, durationInDays, thresholdForPremiumPrice, oneTimeFee);
-            result.Amount.Should().Be(0);
-
-        }
-
-        [TestMethod]
-        public void CalculateSpecialEquipmentPrice_renting_for_one_days()
-        {
-            var service = new InvoiceService(_inventoryService.Object, _rentOrderService.Object);
-            var durationInDays = 1;
-            var thresholdForPremiumPrice = 3;
             var oneTimeFee = false;
-
             var equipment = new Equipment() { Name = "Bosch jackhammer", Type = EquipmentType.Specialized };
-
             var result = service.CalculatePrice(equipment, durationInDays, thresholdForPremiumPrice, oneTimeFee);
-            result.Amount.Should().Be(60);
+            result.Amount.Should().Be(expected);
 
         }
 
-        [TestMethod]
-        public void CalculateSpecialEquipmentPrice_renting_for_four_days()
-        {
-            var service = new InvoiceService(_inventoryService.Object, _rentOrderService.Object);
-            var durationInDays = 4;
-            var thresholdForPremiumPrice = 3;
-            var oneTimeFee = false;
-
-            var equipment = new Equipment() { Name = "Bosch jackhammer", Type = EquipmentType.Specialized };
-
-            var result = service.CalculatePrice(equipment, durationInDays, thresholdForPremiumPrice, oneTimeFee);
-            result.Amount.Should().Be(220);
-
-        }
 
         [TestMethod]
-        public void CalculateHeavyEquipmentPrice_renting_for_zero_days()
+        [DataRow(1, 160)]
+        [DataRow(4, 340)]
+        [DataRow(0, 0)]
+        public void CalculateHeavyEquipmentPrice_renting_for_zero_days(int durationInDays, int expected)
         {
             var service = new InvoiceService(_inventoryService.Object, _rentOrderService.Object);
-            var durationInDays = 0;
-
             var equipment = new Equipment() { Name = "Caterpillar bulldozer", Type = EquipmentType.Heavy };
-
             var result = service.CalculateHeavyPrice(equipment, durationInDays);
-            result.Amount.Should().Be(0);
-
-        }
-
-        [TestMethod]
-        public void CalculateHeavyEquipmentPrice_renting_for_one_day()
-        {
-            var service = new InvoiceService(_inventoryService.Object, _rentOrderService.Object);
-            var durationInDays = 1;
-
-            var equipment = new Equipment() { Name = "Caterpillar bulldozer", Type = EquipmentType.Heavy };
-
-            var result = service.CalculateHeavyPrice(equipment, durationInDays);
-            result.Amount.Should().Be(160);
-
-        }
-
-        [TestMethod]
-        public void CalculateHeavyEquipmentPrice_renting_for_four_days()
-        {
-            var service = new InvoiceService(_inventoryService.Object, _rentOrderService.Object);
-            var durationInDays = 4;
-
-            var equipment = new Equipment() { Name = "Caterpillar bulldozer", Type = EquipmentType.Heavy };
-
-            var result = service.CalculateHeavyPrice(equipment, durationInDays);
-            result.Amount.Should().Be(340);
+            result.Amount.Should().Be(expected);
 
         }
     }

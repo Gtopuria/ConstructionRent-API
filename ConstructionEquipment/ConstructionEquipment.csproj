@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>e31c0e46-4e4f-4eb8-b4a0-433173bd50e0</UserSecretsId>
-    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,8 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ConstructionEquipment.Domain\ConstructionEquipment.Domain.csproj" />
+    <ProjectReference Include="..\ConstructionEquipment.Domain\ConstructionEquipment.Domain.csproj" />
   </ItemGroup>
-
 
 </Project>
