@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ConstructionEquipment.Domain\ConstructionEquipment.Domain.csproj" />
     <ProjectReference Include="..\ConstructionEquipment.Domain\ConstructionEquipment.Domain.csproj" />
   </ItemGroup>
 
